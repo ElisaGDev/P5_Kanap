@@ -1,15 +1,24 @@
 {
   "name": "kanap-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "author": "",
+  "author": "Elisa GARET",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
     "uuid": "^3.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElisaGDev/P5_Kanap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ElisaGDev/P5_Kanap/issues"
+  },
+  "homepage": "https://github.com/ElisaGDev/P5_Kanap#readme",
+  "description": ""
 }
