@@ -16,7 +16,7 @@ fetch(urlKanap + productId)
     }
   })
   .catch((error) => {
-    console.log("Erreur de la requête API");
+    console.log("Erreur");
   });
 
 function getArticle(articles) {
@@ -38,7 +38,7 @@ function getArticle(articles) {
   let productDescription = document.getElementById("description");
   productDescription.innerHTML = articles.description;
 
-  // Ajout des options de couleurs
+  // Ajout des différentes couleurs
   for (let colors of articles.colors) {
     console.table(colors);
     let productColors = document.createElement("option");
@@ -47,4 +47,33 @@ function getArticle(articles) {
     productColors.innerHTML = colors;
   }
   addToCart(articles);
+}
+
+//Ajouter au panier
+function addToCart(articles) {
+  const btnAddToCart = document.getElementById("addToCart");
+  const colors = document.getElementById("colors");
+  const quantity = document.getElementById("quantity");
+  btnAddToCart.addEventListener("click", (event) => {
+    event.preventDefault();
+    const selectColor = colors.value;
+    console.log(selectColor);
+    const selectQuantity = quantity.value;
+    console.log(selectQuantity);
+    if (selectQuantity == 0) {
+      alert("Choisissez une quantité pour le produit");
+    } else if (selectColor == "") {
+      alert("Choisissez une couleur");
+    } else {
+      let productInCart = {
+        productName: articles.name,
+        productId: articles._id,
+        productQuantity: selectQuantity,
+        productPrice: articles.price,
+        productImg: articles.imageUrl,
+        productImgAlt: articles.altTxt,
+      };
+      console.table(productInCart);
+    }
+  });
 }
