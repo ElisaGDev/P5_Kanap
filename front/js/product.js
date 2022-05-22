@@ -1,7 +1,9 @@
+//Récupération de l'id produit dans l'URL
 var str = window.location.href;
 var url = new URL(str);
 var productId = url.searchParams.get("id");
-//onsole.log(productId);
+//console.log(productId);
+
 const urlKanap = "http://localhost:3000/api/products/";
 const color = document.querySelector("#colors");
 const quantity = document.querySelector("#quantity");
@@ -21,6 +23,7 @@ fetch(urlKanap + productId)
     //console.log("Erreur");
   });
 
+//Fonction qui récupère les données de la promesse
 function getArticle(article) {
   //Ajout de l'image
   let productImg = document.createElement("img");
@@ -51,7 +54,7 @@ function getArticle(article) {
   addToCart(article);
 }
 
-//Ajouter au panier
+//Fonction Ajouter au panier
 function addToCart(article) {
   const btnAddToCart = document.querySelector("#addToCart");
 
@@ -60,7 +63,6 @@ function addToCart(article) {
     if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0) {
       //Recupération du choix de la couleur
       let selectColor = color.value;
-
       //Recupération du choix de la quantité
       let selectQuantity = quantity.value;
 
@@ -68,7 +70,7 @@ function addToCart(article) {
       let productInCart = {
         productId: productId,
         productColors: selectColor,
-        productQuantity: Number(selectQuantity),
+        productQuantity: selectQuantity,
         productName: article.name,
         productPrice: article.price,
         productDescription: article.description,
@@ -76,13 +78,14 @@ function addToCart(article) {
         productImgAlt: article.altTxt,
       };
 
+      /******************************************  LOCAL STORAGE  ***************************************** */
       //Initialisation du local storage
       let saveInLocalStorage = JSON.parse(localStorage.getItem("product"));
 
-      //fenêtre pop-up
+      //Pop-up de confirmation
       const popupConfirmation = () => {
         if (
-          window.confirm(`Votre commande de ${selectQuantity} ${article.name} ${selectColor} est ajoutée au panier
+          window.confirm(`Vous avez ajouté ${selectQuantity} ${article.name} ${selectColor} au panier
 Pour voir le panier, cliquez sur OK`)
         ) {
           window.location.href = "cart.html";
