@@ -4,6 +4,7 @@ console.table(saveInLocalStorage);
 let productArray = [];
 const itemPosition = document.querySelector("#cart__items");
 
+//Quand le panier est vide
 if (saveInLocalStorage === null || saveInLocalStorage == 0) {
   window.location.hash = "card__title";
   itemPosition.innerHTML = "Votre panier est vide.";
@@ -23,7 +24,7 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
     );
     productArray.push(saveInLocalStorage[product].productId);
 
-    //Ajout de l'élément "div"
+    //Ajout des éléments HTML
     productArticle.innerHTML = `<div class="cart__item__img">
             <img src="${saveInLocalStorage[product].productImg}" alt="${saveInLocalStorage[product].productImg_alt}">
             </div>
@@ -48,6 +49,7 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
   }
 }
 
+//Mis à jour du panier quand la quantité est modifié ou supprimé
 function updateCart() {
   var itemQuantity = document.querySelectorAll(".itemQuantity");
   var lengthQuantity = itemQuantity.length,
@@ -75,4 +77,17 @@ function updateCart() {
 
 updateCart();
 
-function ChangeQuantity() {}
+function ChangeQuantity() {
+  let modifyQuantity = document.querySelectorAll(".itemQuantity");
+
+  for (let j = 0; j < modifyQuantity / length; ++j) {
+    modifyQuantity[j].addEventListener("modify", (event) => {
+      event.preventDefault();
+
+      itemQuantity.innerHTML += `<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${event.target.value}">`;
+      saveInLocalStorage[j].productQuantity = Number(modifyQuantity.value);
+      localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
+      updateCart(j);
+    });
+  }
+}
