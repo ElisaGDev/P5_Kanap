@@ -55,6 +55,8 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
 changeQuantity();
 deleteProduct();
 
+//**************************************** FONCTIONS ****************************************/
+
 //Mis à jour du panier quand la quantité est modifié ou supprimé
 function updateCart(product) {
   var itemQuantity = document.querySelectorAll(".itemQuantity");
@@ -117,3 +119,77 @@ function deleteProduct() {
     });
   }
 }
+
+//Validation du formulaire
+function formValidation() {
+  let form = document.querySelector("#order");
+
+  //Identification des champs du formulaire
+  let firstName = document.querySelector("#firstName");
+  let firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
+
+  let lastName = document.querySelector("#lastName");
+  let lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
+
+  let address = document.querySelector("#address");
+  let addressErrorMsg = document.querySelector("#addressErrorMsg");
+
+  let city = document.querySelector("#city");
+  let cityErrorMsg = document.querySelector("#cityErrorMsg");
+
+  let email = document.querySelector("#email");
+  let emailErrorMsg = document.querySelector("#emailErrorMsg");
+
+  //Création des regex
+  let nameRegex = new RegExp("^[a-zA-Z ,.'-]+$");
+  let emailRegex = new RegExp(
+    "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$"
+  );
+  let locationRegex = new RegExp(
+    "^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+"
+  );
+
+  //Ecoute du changement pour chaque champ de formulaire
+  firstName.addEventListener("change", (Event) => {
+    if (nameRegex.test(firstName.value) == true) {
+      firstNameErrorMsg.innerHTML = " ";
+    } else {
+      firstNameErrorMsg.innerHTML = "Veuillez renseigner le prénom";
+    }
+  });
+
+  lastName.addEventListener("change", (Event) => {
+    if (nameRegex.test(lastName.value) == true) {
+      lastNameErrorMsg.innerHTML = " ";
+    } else {
+      lastNameErrorMsg.innerHTML = "Veuillez renseigner le nom de famille";
+    }
+  });
+
+  city.addEventListener("change", (Event) => {
+    if (locationRegex.test(city.value) == true) {
+      cityErrorMsg.innerHTML = " ";
+    } else {
+      cityErrorMsg.innerHTML = "Veuillez renseigner votre ville";
+    }
+  });
+
+  address.addEventListener("change", (Event) => {
+    if (locationRegex.test(address.value) == true) {
+      addressErrorMsg.innerHTML = " ";
+    } else {
+      addressErrorMsg.innerHTML = "Veuillez renseigner votre adresse postale";
+    }
+  });
+
+  email.addEventListener("change", (Event) => {
+    if (emailRegex.test(email.value) == true) {
+      emailErrorMsg.innerHTML = " ";
+    } else {
+      emailErrorMsg.innerHTML = "Veuillez renseigner votre adresse email";
+    }
+  });
+}
+formValidation();
+
+//Envoi des informations au localStorage
