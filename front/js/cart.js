@@ -11,7 +11,10 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
   alert(
     "Votre panier est vide. Allez sur la page d'accueil pour choisir vos articles !"
   );
-  localStorage.removeItem("product", JSON.stringify(product));
+  localStorage.removeItem(
+    "saveInLocalStorage",
+    JSON.stringify(saveInLocalStorage)
+  );
   window.location.href = "index.html";
 } else {
   for (let product in saveInLocalStorage) {
@@ -49,8 +52,11 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
   }
 }
 
+changeQuantity();
+deleteProduct();
+
 //Mis à jour du panier quand la quantité est modifié ou supprimé
-function updateCart() {
+function updateCart(product) {
   var itemQuantity = document.querySelectorAll(".itemQuantity");
   var lengthQuantity = itemQuantity.length,
     totalQuantity = 0;
@@ -62,7 +68,6 @@ function updateCart() {
   let productTotalQuantity = document.querySelector("#totalQuantity");
   productTotalQuantity.innerHTML = totalQuantity;
   console.log(totalQuantity);
-
   totalPrice = 0;
 
   for (var i = 0; i < lengthQuantity; ++i) {
@@ -75,19 +80,40 @@ function updateCart() {
   console.log(totalPrice);
 }
 
-updateCart();
+//Mise à jour du panier quand on modifie la quantité
+function changeQuantity() {
+  let itemQuantity = document.getElementsByClassName("itemQuantity");
+  console.log(itemQuantity);
 
-function ChangeQuantity() {
-  let modifyQuantity = document.querySelectorAll(".itemQuantity");
+  for (let q = 0; q < itemQuantity.length; q++) {
+    let changeQuantity = itemQuantity[q];
+    //Mise à jour auto au moment de changer la valeur de l'input
+    changeQuantity.addEventListener("input", (event) => {
+      itemQuantity.innerHTML += `<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" 
+            value="${event.target.value}">`;
 
-  for (let j = 0; j < modifyQuantity / length; ++j) {
-    modifyQuantity[j].addEventListener("modify", (event) => {
-      event.preventDefault();
+      saveInLocalStorage[q].productQuantity = Number(changeQuantity.value);
 
-      itemQuantity.innerHTML += `<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${event.target.value}">`;
-      saveInLocalStorage[j].productQuantity = Number(modifyQuantity.value);
       localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
-      updateCart(j);
+
+      updateCart(q);
+    });
+  }
+}
+
+//Supprimer un produit du panier
+function deleteProduct() {
+  let btn_delete = document.querySelectorAll(".deleteItem");
+  console.log(btn_delete);
+
+  for (let i = 0; i < btn_delete.length; i++) {
+    let deleteOne = btn_delete[i];
+
+    deleteOne.addEventListener("click", (event) => {
+      saveInLocalStorage.splice(i, 1);
+      localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
+      alert("Ce produit a bien été supprimé du panier.");
+      window.location.reload();
     });
   }
 }
