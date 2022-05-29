@@ -69,7 +69,7 @@ function updateCart(product) {
 
   let productTotalQuantity = document.querySelector("#totalQuantity");
   productTotalQuantity.innerHTML = totalQuantity;
-  console.log(totalQuantity);
+  //console.log(totalQuantity);
   totalPrice = 0;
 
   for (var i = 0; i < lengthQuantity; ++i) {
@@ -79,13 +79,13 @@ function updateCart(product) {
 
   let productTotalPrice = document.querySelector("#totalPrice");
   productTotalPrice.innerHTML = totalPrice;
-  console.log(totalPrice);
+  //console.log(totalPrice);
 }
 
 //Mise à jour du panier quand on modifie la quantité
 function changeQuantity() {
   let itemQuantity = document.getElementsByClassName("itemQuantity");
-  console.log(itemQuantity);
+  //console.log(itemQuantity);
 
   for (let q = 0; q < itemQuantity.length; q++) {
     let changeQuantity = itemQuantity[q];
@@ -141,12 +141,15 @@ function formValidation() {
   let emailErrorMsg = document.querySelector("#emailErrorMsg");
 
   //Création des regex
-  let nameRegex = new RegExp("^[a-zA-Z ,.'-]+$");
+  let nameRegex = new RegExp("^[a-zA-z0-9_.-]*$");
   let emailRegex = new RegExp(
-    "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$"
+    "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
   );
   let locationRegex = new RegExp(
-    "^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+"
+    "^([1-9][0-9]*(?:-[1-9][0-9]*)*)[s,-]+(?:(bis|ter|qua)[s,-]+)?([w]+[-w]*)[s,]+([-w].+)$"
+  );
+  let cityRegex = new RegExp(
+    "^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
   );
 
   //Ecoute du changement pour chaque champ de formulaire
@@ -167,7 +170,7 @@ function formValidation() {
   });
 
   city.addEventListener("change", (Event) => {
-    if (locationRegex.test(city.value) == true) {
+    if (cityRegex.test(city.value) == true) {
       cityErrorMsg.innerHTML = " ";
     } else {
       cityErrorMsg.innerHTML = "Veuillez renseigner votre ville";
