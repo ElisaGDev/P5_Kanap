@@ -141,15 +141,15 @@ function formValidation() {
   let emailErrorMsg = document.querySelector("#emailErrorMsg");
 
   //Création des regex
-  let nameRegex = new RegExp("^[a-zA-z0-9_.-]*$");
+  let nameRegex = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç_.-]{2,30}$");
   let emailRegex = new RegExp(
     "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
   );
-  let adressRegex = new RegExp(
-    "^([0-9]{1,})+([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+  let addressRegex = new RegExp(
+    "^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$"
   );
   let cityRegex = new RegExp(
-    "^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+    "^([a-zA-Zàâäéèêëïîôöùûüç]+(?:. |-| |'))*[a-zA-Zàâäéèêëïîôöùûüç]*$"
   );
 
   //Ecoute du changement pour chaque champ de formulaire
@@ -157,38 +157,91 @@ function formValidation() {
     if (nameRegex.test(firstName.value) == true) {
       firstNameErrorMsg.innerHTML = " ";
     } else {
-      firstNameErrorMsg.innerHTML = "Veuillez renseigner le prénom";
+      firstNameErrorMsg.innerHTML = "Le prénom ne comporte que des lettres";
     }
   });
   lastName.addEventListener("change", (Event) => {
     if (nameRegex.test(lastName.value) == true) {
       lastNameErrorMsg.innerHTML = " ";
     } else {
-      lastNameErrorMsg.innerHTML = "Veuillez renseigner le nom de famille";
+      lastNameErrorMsg.innerHTML = "Le nom ne comporte que des lettres";
     }
   });
   address.addEventListener("change", (Event) => {
     if (addressRegex.test(address.value) == true) {
       addressErrorMsg.innerHTML = " ";
     } else {
-      addressErrorMsg.innerHTML = "Veuillez renseigner votre adresse postale";
+      addressErrorMsg.innerHTML =
+        "Le format de l'adresse n'est pas correct (ex: 1 rue de l'église)";
     }
   });
   city.addEventListener("change", (Event) => {
     if (cityRegex.test(city.value) == true) {
       cityErrorMsg.innerHTML = " ";
     } else {
-      cityErrorMsg.innerHTML = "Veuillez renseigner votre ville";
+      cityErrorMsg.innerHTML = "La ville ne comporte que des lettres";
     }
   });
   email.addEventListener("change", (Event) => {
     if (emailRegex.test(email.value) == true) {
       emailErrorMsg.innerHTML = " ";
     } else {
-      emailErrorMsg.innerHTML = "Veuillez renseigner votre adresse email";
+      emailErrorMsg.innerHTML =
+        "Le format de l'adresse n'est pas correct (ex: nom@domaine.fr)";
     }
   });
 }
 formValidation();
 
 //Envoi des informations au localStorage
+function formPost() {
+  const btnOrder = document.querySelector("#order");
+
+  //Ecouter le bouton "Commandez"
+  btnOrder.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    if (saveInLocalStorage !== null) {
+      let productsOrder = [];
+      for (let i = 0; i < saveInLocalStorage.length; i++) {
+        productsOrder.push(saveInLocalStorage[i].productId);
+      }
+
+      // Construction de l'objet attendu par l'API
+
+      const valuesOrder = {
+        contact: {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          address: address.value,
+          city: city.value,
+          email: email.value,
+        },
+        products: productsOrder,
+      };
+
+      // Requête POST
+
+      const options = {
+        method: "POST",
+        body: JSON.stringify(valuesOrder),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      };
+      fetch("http://localhost:3000/api/products/order", options)
+        .then((results) => results.json())
+        .then((data) => {
+          // Renvoi de l'orderID dans l'URL
+          document.location.href = "confirmation.html?id=" + data.orderId;
+        })
+        .catch(function (error) {
+          console.log("Erreur fetch" + error);
+        });
+    } else {
+      alert("Veuillez compléter le formulaire");
+    }
+  });
+}
+formPost();
