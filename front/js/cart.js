@@ -145,8 +145,8 @@ function formValidation() {
   let emailRegex = new RegExp(
     "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
   );
-  let locationRegex = new RegExp(
-    "^([1-9][0-9]*(?:-[1-9][0-9]*)*)[s,-]+(?:(bis|ter|qua)[s,-]+)?([w]+[-w]*)[s,]+([-w].+)$"
+  let adressRegex = new RegExp(
+    "^([0-9]{1,})+([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
   );
   let cityRegex = new RegExp(
     "^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
@@ -160,7 +160,6 @@ function formValidation() {
       firstNameErrorMsg.innerHTML = "Veuillez renseigner le prénom";
     }
   });
-
   lastName.addEventListener("change", (Event) => {
     if (nameRegex.test(lastName.value) == true) {
       lastNameErrorMsg.innerHTML = " ";
@@ -168,7 +167,13 @@ function formValidation() {
       lastNameErrorMsg.innerHTML = "Veuillez renseigner le nom de famille";
     }
   });
-
+  address.addEventListener("change", (Event) => {
+    if (addressRegex.test(address.value) == true) {
+      addressErrorMsg.innerHTML = " ";
+    } else {
+      addressErrorMsg.innerHTML = "Veuillez renseigner votre adresse postale";
+    }
+  });
   city.addEventListener("change", (Event) => {
     if (cityRegex.test(city.value) == true) {
       cityErrorMsg.innerHTML = " ";
@@ -176,15 +181,6 @@ function formValidation() {
       cityErrorMsg.innerHTML = "Veuillez renseigner votre ville";
     }
   });
-
-  address.addEventListener("change", (Event) => {
-    if (locationRegex.test(address.value) == true) {
-      addressErrorMsg.innerHTML = " ";
-    } else {
-      addressErrorMsg.innerHTML = "Veuillez renseigner votre adresse postale";
-    }
-  });
-
   email.addEventListener("change", (Event) => {
     if (emailRegex.test(email.value) == true) {
       emailErrorMsg.innerHTML = " ";
