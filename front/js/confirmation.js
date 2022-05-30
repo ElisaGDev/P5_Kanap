@@ -9,4 +9,4 @@ orderId.textContent = productId;
 //console.log(localStorage);
 
 //Effacer la commande du LocalStorage
-localStorage.removeItem("productId");
+localStorage.removeItem("product");
