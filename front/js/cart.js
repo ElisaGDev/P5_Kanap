@@ -197,7 +197,6 @@ formValidation();
 function formPost() {
   const btnOrder = document.querySelector("#order");
 
-  //Ecouter le bouton "Commandez"
   btnOrder.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -207,7 +206,7 @@ function formPost() {
         productsOrder.push(saveInLocalStorage[i].productId);
       }
 
-      // Construction de l'objet attendu par l'API
+      // Créer l'objet attendu par l'API
 
       const valuesOrder = {
         contact: {
