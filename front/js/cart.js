@@ -1,9 +1,12 @@
 const urlKanap = "http://localhost:3000/api/products/order";
+//Importe le Local Storage
 let saveInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.table(saveInLocalStorage);
+
 let productArray = [];
 const itemPosition = document.querySelector("#cart__items");
 
+//Récupère les informations et les affiche dans le panier
 //Quand le panier est vide
 if (saveInLocalStorage === null || saveInLocalStorage == 0) {
   window.location.hash = "card__title";
@@ -31,7 +34,7 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
     productArticle.innerHTML = `<div class="cart__item__img">
             <img src="${saveInLocalStorage[product].productImg}" alt="${saveInLocalStorage[product].productImg_alt}">
             </div>
-         <div class="cart__item__content">
+          <div class="cart__item__content">
             <div class="cart__item__content__titlePrice">
                 <h2>${saveInLocalStorage[product].productName} - ${saveInLocalStorage[product].productColors}</h2>
                 <p>${saveInLocalStorage[product].productPrice} €</p>
@@ -45,7 +48,7 @@ if (saveInLocalStorage === null || saveInLocalStorage == 0) {
                     <p class="deleteItem">Supprimer</p>
                 </div>
             </div>
-        </div>`;
+          </div>`;
     itemPosition.appendChild(productArticle);
 
     updateCart(product);
@@ -57,12 +60,14 @@ deleteProduct();
 
 //**************************************** FONCTIONS ****************************************/
 
-//Mis à jour du panier quand la quantité est modifié ou supprimé
+//Mise à jour de la quantité totale du panier
 function updateCart(product) {
   var itemQuantity = document.querySelectorAll(".itemQuantity");
+  //Déclare une variable qui récupère le nombre de produits différents dans le panier
   var lengthQuantity = itemQuantity.length,
     totalQuantity = 0;
 
+  //Ajoute la valeur pour chaque produit à la quantité totale
   for (var i = 0; i < lengthQuantity; ++i) {
     totalQuantity += itemQuantity[i].valueAsNumber;
   }
@@ -72,6 +77,7 @@ function updateCart(product) {
   //console.log(totalQuantity);
   totalPrice = 0;
 
+  //Calcul de la quantité et du prix total
   for (var i = 0; i < lengthQuantity; ++i) {
     totalPrice +=
       itemQuantity[i].valueAsNumber * saveInLocalStorage[i].productPrice;
@@ -82,14 +88,14 @@ function updateCart(product) {
   //console.log(totalPrice);
 }
 
-//Mise à jour du panier quand on modifie la quantité
+//Mise à jour du panier quand on modifie la quantité pour chaque produit
 function changeQuantity() {
   let itemQuantity = document.getElementsByClassName("itemQuantity");
   //console.log(itemQuantity);
 
   for (let q = 0; q < itemQuantity.length; q++) {
     let changeQuantity = itemQuantity[q];
-    //Mise à jour auto au moment de changer la valeur de l'input
+    //Mise à jour au moment de changer la valeur de l'input
     changeQuantity.addEventListener("input", (event) => {
       itemQuantity.innerHTML += `<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" 
             value="${event.target.value}">`;
@@ -103,7 +109,7 @@ function changeQuantity() {
   }
 }
 
-//Supprimer un produit du panier
+//Supprime un produit du panier
 function deleteProduct() {
   let btn_delete = document.querySelectorAll(".deleteItem");
   console.log(btn_delete);
@@ -111,6 +117,7 @@ function deleteProduct() {
   for (let i = 0; i < btn_delete.length; i++) {
     let deleteOne = btn_delete[i];
 
+    //Ecoute du bouton "Supprimer"
     deleteOne.addEventListener("click", (event) => {
       saveInLocalStorage.splice(i, 1);
       localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
@@ -120,11 +127,11 @@ function deleteProduct() {
   }
 }
 
-//Validation du formulaire
+//Valide le formulaire
 function formValidation() {
   let form = document.querySelector("#order");
 
-  //Identification des champs du formulaire
+  //Identifie les champs du formulaire
   let firstName = document.querySelector("#firstName");
   let firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
 

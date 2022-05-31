@@ -8,6 +8,7 @@ const urlKanap = "http://localhost:3000/api/products/";
 const color = document.querySelector("#colors");
 const quantity = document.querySelector("#quantity");
 
+//Récupère les infos produits de l'API
 fetch(urlKanap + productId)
   .then((results) => {
     return results.json();
@@ -23,7 +24,7 @@ fetch(urlKanap + productId)
     //console.log("Erreur");
   });
 
-//Fonction qui récupère les données de la promesse
+//Fonction qui récupère les données de la promesse pour l'insérer dans le DOM
 function getArticle(article) {
   //Ajout de l'image
   let productImg = document.createElement("img");
@@ -31,19 +32,19 @@ function getArticle(article) {
   productImg.src = article.imageUrl;
   productImg.alt = article.altTxt;
 
-  // Modification du titre "h1"
+  //Ajout du titre "h1"
   let productName = document.getElementById("title");
   productName.innerHTML = article.name;
 
-  // Modification du prix
+  //Ajout du prix
   let productPrice = document.getElementById("price");
   productPrice.innerHTML = article.price;
 
-  // Modification de la description
+  //Ajout de la description
   let productDescription = document.getElementById("description");
   productDescription.innerHTML = article.description;
 
-  // Ajout des différentes couleurs
+  //Ajout des différentes couleurs
   for (let colors of article.colors) {
     //console.table(colors);
     let productColors = document.createElement("option");
@@ -58,15 +59,15 @@ function getArticle(article) {
 function addToCart(article) {
   const btnAddToCart = document.querySelector("#addToCart");
 
-  //Vérifier 2 conditions : couleur non nulle et quantité entre 1 et 100
+  //Vérifie 2 conditions : couleur non nulle et quantité entre 1 et 100
   btnAddToCart.addEventListener("click", (event) => {
     if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0) {
-      //Recupération du choix de la couleur
+      //Recupère le choix de la couleur
       let selectColor = color.value;
-      //Recupération du choix de la quantité
+      //Recupère le choix de la quantité
       let selectQuantity = quantity.value;
 
-      //Récupération des options de l'article à ajouter au panier
+      //Récupère les options de l'article à ajouter au panier
       let productInCart = {
         productId: productId,
         productColors: selectColor,
@@ -79,7 +80,7 @@ function addToCart(article) {
       };
 
       /******************************************  LOCAL STORAGE  ***************************************** */
-      //Initialisation du local storage
+      //Initialise le local storage
       let saveInLocalStorage = JSON.parse(localStorage.getItem("product"));
 
       //Pop-up de confirmation
