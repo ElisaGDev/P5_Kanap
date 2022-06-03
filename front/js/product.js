@@ -68,9 +68,9 @@ function addToCart(article) {
     // console.log(selectQuantity);
 
     if (selectQuantity == 0) {
-      //alert("Veuillez choisir une quantité du produit");
+      alert("Veuillez choisir une quantité du produit");
     } else if (selectColor == "") {
-      //alert("Veuillez choisir une couleur");
+      alert("Veuillez choisir une couleur");
     } else {
       let productInCart = {
         productId: productId,
@@ -100,7 +100,7 @@ Pour voir le panier, cliquez sur OK`)
 
       //Importation dans le Local Storage
       //Si le panier a déjà 1 article minimum
-      console.table(productInCart);
+      //console.table(productInCart);
       if (saveInLocalStorage) {
         const resultFind = saveInLocalStorage.find(
           (el) => el.productId === productId && el.productColors === selectColor
@@ -112,13 +112,13 @@ Pour voir le panier, cliquez sur OK`)
             parseInt(resultFind.productQuantity);
           resultFind.productQuantity = newQuantity;
           localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
-          console.table(saveInLocalStorage);
+          //console.table(saveInLocalStorage);
           popupConfirmation();
           //Si le produit choisi n'est pas dans le panier
         } else {
           saveInLocalStorage.push(productInCart);
           localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
-          console.table(saveInLocalStorage);
+          //console.table(saveInLocalStorage);
           popupConfirmation();
         }
         //Si le panier est vide
@@ -126,7 +126,7 @@ Pour voir le panier, cliquez sur OK`)
         saveInLocalStorage = [];
         saveInLocalStorage.push(productInCart);
         localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
-        console.table(saveInLocalStorage);
+        //console.table(saveInLocalStorage);
         popupConfirmation();
       }
     }

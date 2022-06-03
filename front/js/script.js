@@ -8,10 +8,10 @@ fetch(urlKanap)
   })
   .then((results) => {
     let articles = results;
-    console.log(articles);
+    //console.log(articles);
 
     // Répartition des produits dans le DOM
-    console.table(articles);
+    //console.table(articles);
     for (let article in articles) {
       // Insertion de l'élément "a"
       let productLink = document.createElement("a");

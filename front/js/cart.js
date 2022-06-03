@@ -1,7 +1,7 @@
 const urlKanap = "http://localhost:3000/api/products/order";
 //Importe le Local Storage
 let saveInLocalStorage = JSON.parse(localStorage.getItem("product"));
-console.table(saveInLocalStorage);
+//console.table(saveInLocalStorage);
 
 let productArray = [];
 const itemPosition = document.querySelector("#cart__items");
@@ -112,7 +112,7 @@ function changeQuantity() {
 //Supprime un produit du panier
 function deleteProduct() {
   let btn_delete = document.querySelectorAll(".deleteItem");
-  console.log(btn_delete);
+  //console.log(btn_delete);
 
   for (let i = 0; i < btn_delete.length; i++) {
     let deleteOne = btn_delete[i];
@@ -212,8 +212,6 @@ function formPost() {
       for (let i = 0; i < saveInLocalStorage.length; i++) {
         productsOrder.push(saveInLocalStorage[i].productId);
       }
-
-      // Créer l'objet attendu par l'API
 
       const valuesOrder = {
         contact: {
