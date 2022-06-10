@@ -1,22 +1,22 @@
-//Récupération de l'id produit dans l'URL
+//Récupération de l'url de la page courante
 var str = window.location.href;
 var url = new URL(str);
+//Récupération de l'id produit dans l'URL
 var productId = url.searchParams.get("id");
-//console.log(productId);
 
 const urlKanap = "http://localhost:3000/api/products/";
 const color = document.querySelector("#colors");
 const quantity = document.querySelector("#quantity");
 
-//Récupère les infos produits de l'API
+//Récupèration des éléments produits de l'API pour le produit passé dans l'Url
 fetch(urlKanap + productId)
   .then((results) => {
     return results.json();
   })
   .then((results) => {
     let article = results;
-    //console.log(articles);
     if (article) {
+      //Appel de la fonction getArticle
       getArticle(article);
     }
   })
@@ -26,25 +26,25 @@ fetch(urlKanap + productId)
 
 //Fonction qui récupère les données de la promesse pour l'insérer dans le DOM
 function getArticle(article) {
-  //Ajout de l'image
+  //Création de l'élément image
   let productImg = document.createElement("img");
   document.querySelector(".item__img").appendChild(productImg);
   productImg.src = article.imageUrl;
   productImg.alt = article.altTxt;
 
-  //Ajout du titre "h1"
+  //Création de l'élément titre
   let productName = document.getElementById("title");
   productName.innerHTML = article.name;
 
-  //Ajout du prix
+  //Création de l'élément prix
   let productPrice = document.getElementById("price");
   productPrice.innerHTML = article.price;
 
-  //Ajout de la description
+  //Création de l'élément description
   let productDescription = document.getElementById("description");
   productDescription.innerHTML = article.description;
 
-  //Ajout des différentes couleurs
+  //Création des éléments couleurs
   for (let colors of article.colors) {
     //console.table(colors);
     let productColors = document.createElement("option");
@@ -52,6 +52,7 @@ function getArticle(article) {
     productColors.value = colors;
     productColors.innerHTML = colors;
   }
+  //Appel de la fonction addToCart
   addToCart(article);
 }
 
@@ -85,7 +86,7 @@ function addToCart(article) {
       //console.table(productInCart);
 
       /******************************************  LOCAL STORAGE  ***************************************** */
-      //Initialise le local storage
+      //Initialisation du localStorage
       let saveInLocalStorage = JSON.parse(localStorage.getItem("product"));
 
       //Pop-up de confirmation
@@ -99,7 +100,7 @@ Pour voir le panier, cliquez sur OK`)
       };
 
       //Importation dans le Local Storage
-      //Si le panier a déjà 1 article minimum
+      //Si le localStorage a déjà une valeur
       //console.table(productInCart);
       if (saveInLocalStorage) {
         const resultFind = saveInLocalStorage.find(
@@ -107,24 +108,30 @@ Pour voir le panier, cliquez sur OK`)
         );
         //Si le produit est déjà dans le panier
         if (resultFind) {
+          //On ajoute la nouvelle quantité
           let newQuantity =
             parseInt(productInCart.productQuantity) +
             parseInt(resultFind.productQuantity);
           resultFind.productQuantity = newQuantity;
+          //On stocke dans le localStorage
           localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
           //console.table(saveInLocalStorage);
           popupConfirmation();
-          //Si le produit choisi n'est pas dans le panier
+          //Ou si le produit choisi n'est pas dans le panier
         } else {
+          //On ajoute une nouvelle valeur
           saveInLocalStorage.push(productInCart);
+          //On stocke dans le localStorage
           localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
           //console.table(saveInLocalStorage);
           popupConfirmation();
         }
-        //Si le panier est vide
+        //Si le localStorage est vide
       } else {
+        //On crée un tableau avec les valeurs du produit
         saveInLocalStorage = [];
         saveInLocalStorage.push(productInCart);
+        //On stocke dans le localStorage
         localStorage.setItem("product", JSON.stringify(saveInLocalStorage));
         //console.table(saveInLocalStorage);
         popupConfirmation();

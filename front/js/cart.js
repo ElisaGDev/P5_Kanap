@@ -1,22 +1,17 @@
 const urlKanap = "http://localhost:3000/api/products/order";
-//Importe le Local Storage
+//Importation du localStorage
 let saveInLocalStorage = JSON.parse(localStorage.getItem("product"));
 //console.table(saveInLocalStorage);
 
+//Création d'un tableau pour le panier
 let productArray = [];
 const itemPosition = document.querySelector("#cart__items");
 
-//Récupère les informations et les affiche dans le panier
+//Récupèration des informations et affichage dans le panier
 //Quand le panier est vide
 if (saveInLocalStorage === null || saveInLocalStorage == 0) {
-  window.location.hash = "card__title";
-  itemPosition.innerHTML = "Votre panier est vide.";
   alert(
     "Votre panier est vide. Allez sur la page d'accueil pour choisir vos articles !"
-  );
-  localStorage.removeItem(
-    "saveInLocalStorage",
-    JSON.stringify(saveInLocalStorage)
   );
   window.location.href = "index.html";
 } else {
@@ -72,12 +67,13 @@ function updateCart(product) {
     totalQuantity += itemQuantity[i].valueAsNumber;
   }
 
+  //On implémente la quantité totale à l'élément HTML
   let productTotalQuantity = document.querySelector("#totalQuantity");
   productTotalQuantity.innerHTML = totalQuantity;
   //console.log(totalQuantity);
   totalPrice = 0;
 
-  //Calcul de la quantité et du prix total
+  //Calcul du total
   for (var i = 0; i < lengthQuantity; ++i) {
     totalPrice +=
       itemQuantity[i].valueAsNumber * saveInLocalStorage[i].productPrice;
@@ -109,7 +105,7 @@ function changeQuantity() {
   }
 }
 
-//Supprime un produit du panier
+//Suppression d'un produit du panier grâce au bouton
 function deleteProduct() {
   let btn_delete = document.querySelectorAll(".deleteItem");
   //console.log(btn_delete);
@@ -147,7 +143,7 @@ function formValidation() {
   let email = document.querySelector("#email");
   let emailErrorMsg = document.querySelector("#emailErrorMsg");
 
-  //Création des regex
+  //Création des expressions régulières
   let nameRegex = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç_.-]{2,30}$");
   let emailRegex = new RegExp(
     "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
@@ -224,8 +220,7 @@ function formPost() {
         products: productsOrder,
       };
 
-      // Requête POST
-
+      // Requête POST sur l'API
       const options = {
         method: "POST",
         body: JSON.stringify(valuesOrder),
