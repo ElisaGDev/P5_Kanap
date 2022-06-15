@@ -128,78 +128,124 @@ function deleteProduct() {
   }
 }
 
-//Valide le formulaire
-function formValidation() {
-  let form = document.querySelector("#order");
+//**************************************** Formulaire de contact ****************************************/
+let form = document.querySelector("#order");
 
-  //Identifie les champs du formulaire
-  let firstName = document.querySelector("#firstName");
-  let firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
+//Identifie les champs du formulaire
+let firstName = document.querySelector("#firstName");
+let firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
 
-  let lastName = document.querySelector("#lastName");
-  let lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
+let lastName = document.querySelector("#lastName");
+let lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
 
-  let address = document.querySelector("#address");
-  let addressErrorMsg = document.querySelector("#addressErrorMsg");
+let address = document.querySelector("#address");
+let addressErrorMsg = document.querySelector("#addressErrorMsg");
 
-  let city = document.querySelector("#city");
-  let cityErrorMsg = document.querySelector("#cityErrorMsg");
+let city = document.querySelector("#city");
+let cityErrorMsg = document.querySelector("#cityErrorMsg");
 
-  let email = document.querySelector("#email");
-  let emailErrorMsg = document.querySelector("#emailErrorMsg");
+let email = document.querySelector("#email");
+let emailErrorMsg = document.querySelector("#emailErrorMsg");
 
-  //Création des expressions régulières
-  let nameRegex = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç_. -]{2,30}$");
-  let emailRegex = new RegExp(
-    "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
-  );
-  let addressRegex = new RegExp(
-    "^[0-9]{1,3}(?:(?:[,.' ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$"
-  );
-  let cityRegex = new RegExp(
-    "^([a-zA-Zàâäéèêëïîôöùûüç]+(?:. |-| |'))*[a-zA-Zàâäéèêëïîôöùûüç]*$"
-  );
+//Création des expressions régulières
+let nameRegex = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç_. -]{2,30}$");
+let emailRegex = new RegExp(
+  "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
+);
+let addressRegex = new RegExp(
+  "^[0-9]{1,3}(?:(?:[,.' ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$"
+);
+let cityRegex = new RegExp(
+  "^([a-zA-Zàâäéèêëïîôöùûüç]+(?:. |-| |'))*[a-zA-Zàâäéèêëïîôöùûüç]*$"
+);
 
-  //Ecoute du changement pour chaque champ de formulaire
-  firstName.addEventListener("change", (Event) => {
-    if (nameRegex.test(firstName.value) == true) {
-      firstNameErrorMsg.innerHTML = " ";
-    } else {
-      firstNameErrorMsg.innerHTML = "Le prénom ne comporte que des lettres";
-    }
-  });
-  lastName.addEventListener("change", (Event) => {
-    if (nameRegex.test(lastName.value) == true) {
-      lastNameErrorMsg.innerHTML = " ";
-    } else {
-      lastNameErrorMsg.innerHTML = "Le nom ne comporte que des lettres";
-    }
-  });
-  address.addEventListener("change", (Event) => {
-    if (addressRegex.test(address.value) == true) {
-      addressErrorMsg.innerHTML = " ";
-    } else {
-      addressErrorMsg.innerHTML =
-        "Le format de l'adresse n'est pas correct (ex: 1 rue de l'église)";
-    }
-  });
-  city.addEventListener("change", (Event) => {
-    if (cityRegex.test(city.value) == true) {
-      cityErrorMsg.innerHTML = " ";
-    } else {
-      cityErrorMsg.innerHTML = "La ville ne comporte que des lettres";
-    }
-  });
-  email.addEventListener("change", (Event) => {
-    if (emailRegex.test(email.value) == true) {
-      emailErrorMsg.innerHTML = " ";
-    } else {
-      emailErrorMsg.innerHTML =
-        "Le format de l'adresse n'est pas correct (ex: nom@domaine.fr)";
+//Fonctions pour chaque champ de formulaire
+function validFirstName() {
+  firstName.addEventListener("change", function () {
+    testFirstName = nameRegex.test(firstName.value);
+    if (firstName.value == "") {
+      testFirstName = false;
+    } else if (testFirstName == false) {
+      firstNameErrorMsg.textContent = "Le prénom ne comporte que des lettres";
+    } else if (testFirstName == true) {
+      firstNameErrorMsg.textContent = "";
     }
   });
 }
-formValidation();
+
+function validLastName() {
+  lastName.addEventListener("change", function () {
+    testLastName = nameRegex.test(lastName.value);
+    if (lastName.value == "") {
+      testLastName = false;
+    } else if (testLastName == false) {
+      lastNameErrorMsg.textContent = "Le nom ne comporte que des lettres";
+    } else if (testLastName == true) {
+      lastNameErrorMsg.textContent = "";
+    }
+  });
+}
+
+function validAddress() {
+  address.addEventListener("change", function () {
+    testAddress = addressRegex.test(address.value);
+    if (address.value == "") {
+      testAddress = false;
+    } else if (testAddress == false) {
+      addressErrorMsg.textContent =
+        "Le format de l'adresse n'est pas correct (ex: 1 rue de l'église)";
+    } else if (testAddress == true) {
+      addressErrorMsg.textContent = "";
+    }
+  });
+}
+
+function validCity() {
+  city.addEventListener("change", function () {
+    testCity = cityRegex.test(city.value);
+    if (city.value == "") {
+      testCity = false;
+    } else if (testCity == false) {
+      cityErrorMsg.textContent = "La ville ne comporte que des lettres";
+    } else if (testCity == true) {
+      cityErrorMsg.textContent = "";
+    }
+  });
+}
+
+function validEmail() {
+  email.addEventListener("change", function () {
+    testEmail = emailRegex.test(email.value);
+    if (email.value == "") {
+      testEmail = false;
+    } else if (testEmail == false) {
+      emailErrorMsg.textContent =
+        "Le format de l'adresse n'est pas correct (ex: nom@domaine.fr)";
+    } else if (testEmail == true) {
+      emailErrorMsg.textContent = "";
+    }
+  });
+}
+validFirstName();
+validLastName();
+validAddress();
+validCity();
+validEmail();
+
+//Fonction de validation du formulaire
+function validForm() {
+  if (
+    testFirstName === true &&
+    testLastName === true &&
+    testAddress === true &&
+    testCity === true &&
+    testEmail === true
+  ) {
+    formValid = true;
+  } else {
+    formValid = false;
+  }
+}
 
 //Envoi des informations au localStorage
 function formPost() {
@@ -207,8 +253,8 @@ function formPost() {
 
   btnOrder.addEventListener("click", (event) => {
     event.preventDefault();
-
-    if (saveInLocalStorage !== null) {
+    validForm();
+    if (saveInLocalStorage !== null && formValid == true) {
       let productsOrder = [];
       for (let i = 0; i < saveInLocalStorage.length; i++) {
         productsOrder.push(saveInLocalStorage[i].productId);
