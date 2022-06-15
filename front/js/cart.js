@@ -58,6 +58,7 @@ deleteProduct();
 //Mise à jour de la quantité totale du panier
 function updateCart(product) {
   var itemQuantity = document.querySelectorAll(".itemQuantity");
+
   //Déclare une variable qui récupère le nombre de produits différents dans le panier
   var lengthQuantity = itemQuantity.length,
     totalQuantity = 0;
@@ -88,13 +89,17 @@ function updateCart(product) {
 function changeQuantity() {
   let itemQuantity = document.getElementsByClassName("itemQuantity");
   //console.log(itemQuantity);
-
   for (let q = 0; q < itemQuantity.length; q++) {
     let changeQuantity = itemQuantity[q];
     //Mise à jour au moment de changer la valeur de l'input
     changeQuantity.addEventListener("input", (event) => {
       itemQuantity.innerHTML += `<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" 
             value="${event.target.value}">`;
+
+      changeQuantity.addEventListener("change", (event) => {
+        if (event.target.value > 100) event.target.value = 100;
+        if (event.target.value < 0) event.target.value = 0;
+      });
 
       saveInLocalStorage[q].productQuantity = Number(changeQuantity.value);
 
@@ -144,12 +149,12 @@ function formValidation() {
   let emailErrorMsg = document.querySelector("#emailErrorMsg");
 
   //Création des expressions régulières
-  let nameRegex = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç_.-]{2,30}$");
+  let nameRegex = new RegExp("^[a-zA-Zàâäéèêëïîôöùûüç_. -]{2,30}$");
   let emailRegex = new RegExp(
     "^[_]*([a-z0-9]+(.|_*)?)+@([a-z][a-z0-9-]+(.|-*.))+[a-z]{2,6}$"
   );
   let addressRegex = new RegExp(
-    "^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$"
+    "^[0-9]{1,3}(?:(?:[,.' ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$"
   );
   let cityRegex = new RegExp(
     "^([a-zA-Zàâäéèêëïîôöùûüç]+(?:. |-| |'))*[a-zA-Zàâäéèêëïîôöùûüç]*$"
